@@ -1,0 +1,231 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>高性能JavaScript读书笔记（二） | SU_ZE__&#39;s Blog</title>
+  <meta name="author" content="SU_ZE__">
+  
+  <meta name="description" content="读《高性能JavaScript》的时候的一些理解">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="高性能JavaScript读书笔记（二）"/>
+  <meta property="og:site_name" content="SU_ZE__&#39;s Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="SU_ZE__&#39;s Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/css/style.css">
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-368771XX-X']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+<body>
+  <header id="header" class='normal_mode'>
+    <nav id="main-nav">
+  <ul class='container'>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+  </header>
+  <div id="content" class="container">
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+      <time datetime="2017-02-06T06:30:57.000Z"><a href="/2017/02/06/高性能JavaScript读书笔记（二）/">Mon, Feb 6 2017, 2:30:57 pm</a></time>
+
+  
+    <h1 class="title">高性能JavaScript读书笔记（二）</h1>
+  
+
+
+  
+  <div class="categories">
+  	<i class="fa fa-folder-open"></i>
+    <a href="/categories/高性能JavaScript/">高性能JavaScript</a>
+  </div>
+
+
+  
+  <div class="tags">
+  	<i class="fa fa-tag"></i>
+    <a href="/tags/学习笔记/">学习笔记</a>, <a href="/tags/高性能JavaScript/">高性能JavaScript</a>
+  </div>
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <p>读《高性能JavaScript》的时候的一些理解<br><a id="more"></a></p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=394729&auto=0&height=66"></iframe>
+
+<h3 id="第二章-数据存取"><a href="#第二章-数据存取" class="headerlink" title="第二章 数据存取"></a>第二章 数据存取</h3><p>执行函数的时候会创建一个被称为执行环境的内部对象。一个执行环境定义了一个一个函数执行时的环境，函数每次执行时，对应的执行环境都是独一无二的，也就是说每次调用这个函数都会创建不同的执行环境。函数执行完毕，执行环境就销毁。</p>
+<p>每个执行环境都有自己的作用域链，用来解析标识符（我的理解是变量）。执行函数的时候会有个搜索标识符的过程，这个过程会影响性能。而搜索变量的时候，会从作用域链一层层往上找，找到就用，找不到就接着找。所以越近的变量搜索过程越短，性能损失越小。所以要尽可能地缓存全局变量，来减少损耗。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> doc = <span class="built_in">document</span>,</span><br><span class="line">        oDiv1 = doc.getElementById(<span class="string">'div1'</span>);</span><br><span class="line">    oDiv1.style.backgroundColor = <span class="string">'#000'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>with</code> 语句可以把全局变量置于作用域链的头部，但是这是创建了一个新的作用域链，虽然全局变量好找了，但是局部变量却不好找了，更浪费性能。所以不推荐用with语句。</p>
+<p><code>try-catch</code> 中的 <code>catch</code> 也可以改变作用域链，所有的局部变量会被放到新的作用域链里面，这样也会影响性能。 <code>try-catch</code> 语句可以适当使用，来避免不可预知的错误。建议在 <code>catch</code> 中处理错误通过调用函数的方式，这样不访问局部变量就会不会影响性能。</p>
+<h4 id="动态作用域"><a href="#动态作用域" class="headerlink" title="动态作用域"></a>动态作用域</h4><p><code>with</code> 、 <code>try-catch</code> 中 <code>catch</code> 子句、 <code>eval()</code> 都是动态作用域。</p>
+<p>动态作用域只存在函数执行过程中，不建议使用动态作用域，因为可能会改变变量的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">excute</span> (<span class="params">code</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">eval</span>(code);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> w = <span class="built_in">window</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果code是'var window = &#123;&#125;'，w 就不是真正的window了。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="闭包、作用域和内存"><a href="#闭包、作用域和内存" class="headerlink" title="闭包、作用域和内存"></a>闭包、作用域和内存</h4><p>使用闭包时，闭包的 <code>[[Scope]]</code> 包含于执行环境作用域链相同的对象的引用，通常来说这些活动对象会随着执行环境销毁而销毁，但是闭包就不会。<br>使用闭包时要注意：频繁访问跨作用域的标识符时，每次都会带来性能损失。</p>
+<h4 id="对象成员"><a href="#对象成员" class="headerlink" title="对象成员"></a>对象成员</h4>
+      
+    </div>
+    <footer>
+      
+          
+          <div class="clearfix"></div>
+          <nav id="pagination">
+  
+    <a href="/2017/02/26/函数式编程/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
+  
+  
+    <a href="/2017/02/06/高性能JavaScript读书笔记（一）/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+  
+  <div class="clearfix"></div>
+</nav>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Kommentare</h1>
+
+  
+      <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-thread-key="/2017/02/06/高性能JavaScript读书笔记（二）/"></div>
+<!-- Duoshuo Comment END -->
+  
+</section>
+
+
+
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div>
+  
+  &copy; 2017 <a href="https://suuzee.github.io/" title="SU_ZE__" target="_blank" rel="noopener">SU_ZE__</a>
+  
+</div>
+Powered by <a href="http://zespia.tw/hexo/" title="Hexo" target="_blank" rel="noopener">Hexo</a> and <a href="http://pages.github.com/" title="GitHub Pages" target="_blank" rel="noopener">GitHub Pages</a>
+
+<div class="clearfix"></div>
+</footer>
+  
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        (function(){
+
+            $(window).scroll(function(){
+
+                var scrollTop = $(window).scrollTop();
+                if ( scrollTop >200 ){
+                    $("#main-nav").removeClass('normal_mode').addClass('top_mode');
+                } else{
+                    $("#main-nav").removeClass('top_mode').addClass('normal_mode');
+                }
+
+            });
+
+        })();
+    </script>
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox({
+      'titlePosition': 'inside'
+    });
+  })(jQuery);
+  </script>
+
+
+
+
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"suuzee"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+
+  $(function(){
+
+    $('.title').hover(
+      function() {
+        $(this).stop().animate(
+          {'marginLeft': '10px'}, 200
+        );
+      },
+      function() {
+        $(this).stop().animate({'marginLeft': '0px'}, 200);
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>

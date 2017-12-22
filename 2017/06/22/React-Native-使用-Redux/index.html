@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>React Native 使用 Redux | SU_ZE__&#39;s Blog</title>
+  <meta name="author" content="SU_ZE__">
+  
+  <meta name="description" content="React Native 使用 Redux">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="React Native 使用 Redux"/>
+  <meta property="og:site_name" content="SU_ZE__&#39;s Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="SU_ZE__&#39;s Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/css/style.css">
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-368771XX-X']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+<body>
+  <header id="header" class='normal_mode'>
+    <nav id="main-nav">
+  <ul class='container'>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+  </header>
+  <div id="content" class="container">
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+      <time datetime="2017-06-21T16:04:07.000Z"><a href="/2017/06/22/React-Native-使用-Redux/">Thu, Jun 22 2017, 12:04:07 am</a></time>
+
+  
+    <h1 class="title">React Native 使用 Redux</h1>
+  
+
+
+  
+  <div class="categories">
+  	<i class="fa fa-folder-open"></i>
+    <a href="/categories/React-Native/">React Native</a>
+  </div>
+
+
+  
+  <div class="tags">
+  	<i class="fa fa-tag"></i>
+    <a href="/tags/学习笔记/">学习笔记</a>, <a href="/tags/React/">React</a>, <a href="/tags/Redux/">Redux</a>
+  </div>
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="为什么用"><a href="#为什么用" class="headerlink" title="为什么用"></a>为什么用</h2><p>因为更好的易用性和可维护性，将页面拆分了不同的大大小小组件，同一个页面的各个组件怎么能用同一套数据，一层一层传递显然不靠谱，如果能放到一个地方谁都能取出来用，那该多好，就用了<code>Redux</code><a id="more"></a></p>
+<h2 id="正常用"><a href="#正常用" class="headerlink" title="正常用"></a>正常用</h2><p><code>Store</code>: 数据集合，一个应用只有一个<br><code>Action</code>: 必须定义一个类型，可以传递数据给<code>state</code>，例子：从<code>Native</code>端拿到的数据怎么放到<code>Store</code>里面<br><code>Reducer</code>: 纯函数，两个参数：1. state; 2. action  </p>
+<p>合并多个<code>reducer</code><br><code>combineReducer</code></p>
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>正常<code>dispatch</code>一个<code>Action</code>，在这个<code>Action</code>里面去发异步操作，操作前<code>dispatch</code>一个<code>Action</code>，异步操作之后<code>dispatch</code>一个<code>Action</code></p>
+<p><code>ActionCreator</code>应该返回一个函数，这个函数有两个参数，一个是<code>dispatch</code>，一个是<code>getState</code>；然后开始的时候<code>dispatch</code>一个<code>Action</code>，接着执行异步操作，操作之后再<code>dispatch</code>一个<code>Action</code>;<br><code>redux-thunk</code>: 能让<code>store.dispatch</code>参数是函数<br><code>redux-promise</code>: <code>AcrionCreator</code>返回一个<code>Primise</code>对象。<br>两个用法：</p>
+<ol>
+<li><code>ActionCreator</code>返回值是一个<code>Promise</code>对象</li>
+<li><code>Action</code>的<code>payload</code>对象是一个<code>Promise</code>对象，需要<code>redux-actions</code>里面的<code>createAction</code>方法，该方法接受两个参数：1. type; 2. promise对象。如果<code>Action</code>是一个<code>Promise</code>对象，它<code>resolve</code>以后的值也是一个<code>Action</code>对象。而如果<code>Action.payload</code>是一个<code>Promise</code>对象，它<code>resolve</code>和<code>reject</code>之后都可以出发<code>Action</code>。</li>
+</ol>
+<h2 id="React-Reduex"><a href="#React-Reduex" class="headerlink" title="React-Reduex"></a><code>React-Reduex</code></h2><ul>
+<li><code>UI</code>组件和容器组件<br><code>UI</code>组件只负责展示，是一个纯组件，只受<code>props</code>影响，可以接受用户操作，发出<code>Action</code>；容器组件处理逻辑，比如将<code>state</code>里面的值转化成<code>UI</code>组件可用的<code>propos</code>属性，包含着<code>UI</code>组件。</li>
+<li><code>connect</code>方法<br><code>connect</code>用于从<code>UI组件</code>生成<code>容器组件</code></li>
+<li><code>mapStateToProps</code></li>
+<li><code>mapDispatchToProps</code></li>
+<li><code>&lt;Provider /&gt;</code>组件：能让每个组件都能拿到<code>state</code>，从<code>this.context</code>里面拿</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// connect</span></span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span>; </span><br><span class="line"><span class="comment">// UI组件</span></span><br><span class="line"><span class="keyword">import</span> List <span class="keyword">from</span> <span class="string">'./List'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapStateToProps = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 将state的值传给props，返回一个对象，key是props的key，value就是props的value</span></span><br><span class="line">    <span class="comment">// 自动订阅Store，当state更新，会自动更新UI</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果是一个函数</span></span><br><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function">(<span class="params">dispatch, ownProps</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 定义用户应该怎么操作触发Action</span></span><br><span class="line">    <span class="comment">// dispatch触发Action</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果是一个对象</span></span><br><span class="line"><span class="keyword">const</span> mapDispatchToProps =  &#123;</span><br><span class="line">    <span class="comment">// key是UI组件对应的同名参数</span></span><br><span class="line">    <span class="comment">// value 是一个ActionCreator，满足条件自动发</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(</span><br><span class="line">    mapStateToProps,</span><br><span class="line">    mapDispatchToProps</span><br><span class="line">)(List);</span><br><span class="line"></span><br><span class="line"><span class="comment">// connect()(List);这个List就是将List这个UI组件包裹进去。</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+          
+          <div class="clearfix"></div>
+          <nav id="pagination">
+  
+    <a href="/2017/06/25/React-Native-StatusBar/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
+  
+  
+    <a href="/2017/06/19/React-Native-使用自定义字体文件/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+  
+  <div class="clearfix"></div>
+</nav>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Kommentare</h1>
+
+  
+      <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-thread-key="/2017/06/22/React-Native-使用-Redux/"></div>
+<!-- Duoshuo Comment END -->
+  
+</section>
+
+
+
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div>
+  
+  &copy; 2017 <a href="https://suuzee.github.io/" title="SU_ZE__" target="_blank" rel="noopener">SU_ZE__</a>
+  
+</div>
+Powered by <a href="http://zespia.tw/hexo/" title="Hexo" target="_blank" rel="noopener">Hexo</a> and <a href="http://pages.github.com/" title="GitHub Pages" target="_blank" rel="noopener">GitHub Pages</a>
+
+<div class="clearfix"></div>
+</footer>
+  
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        (function(){
+
+            $(window).scroll(function(){
+
+                var scrollTop = $(window).scrollTop();
+                if ( scrollTop >200 ){
+                    $("#main-nav").removeClass('normal_mode').addClass('top_mode');
+                } else{
+                    $("#main-nav").removeClass('top_mode').addClass('normal_mode');
+                }
+
+            });
+
+        })();
+    </script>
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox({
+      'titlePosition': 'inside'
+    });
+  })(jQuery);
+  </script>
+
+
+
+
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"suuzee"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+
+  $(function(){
+
+    $('.title').hover(
+      function() {
+        $(this).stop().animate(
+          {'marginLeft': '10px'}, 200
+        );
+      },
+      function() {
+        $(this).stop().animate({'marginLeft': '0px'}, 200);
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>

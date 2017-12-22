@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>React Native 使用自定义Iconfont | SU_ZE__&#39;s Blog</title>
+  <meta name="author" content="SU_ZE__">
+  
+  <meta name="description" content="React Native 使用自定义Iconfont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="React Native 使用自定义Iconfont"/>
+  <meta property="og:site_name" content="SU_ZE__&#39;s Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="SU_ZE__&#39;s Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/css/style.css">
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-368771XX-X']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+<body>
+  <header id="header" class='normal_mode'>
+    <nav id="main-nav">
+  <ul class='container'>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+  </header>
+  <div id="content" class="container">
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+      <time datetime="2017-06-19T14:00:27.000Z"><a href="/2017/06/19/React-Native-使用自定义字体文件/">Mon, Jun 19 2017, 10:00:27 pm</a></time>
+
+  
+    <h1 class="title">React Native 使用自定义Iconfont</h1>
+  
+
+
+  
+  <div class="categories">
+  	<i class="fa fa-folder-open"></i>
+    <a href="/categories/React-Native/">React Native</a>
+  </div>
+
+
+  
+  <div class="tags">
+  	<i class="fa fa-tag"></i>
+    <a href="/tags/学习笔记/">学习笔记</a>, <a href="/tags/React/">React</a>, <a href="/tags/Iconfont/">Iconfont</a>
+  </div>
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="React-Native-使用自定义-iconfont"><a href="#React-Native-使用自定义-iconfont" class="headerlink" title="React Native 使用自定义 iconfont"></a>React Native 使用自定义 iconfont</h2><a id="more"></a>
+<ol>
+<li>下载字体文件</li>
+<li><code>IOS</code> -&gt; 将字体文件拽进<code>xcode</code>工程里，然后在<code>info.plist</code>加入<code>Fonts provided by application</code>，这是个数组，写上<code>fonts/iconfont.ttf</code>.</li>
+<li><code>Android</code>: 把字体文件拷贝到<code>[project root]/android/app/src/main/assets/fonts/</code></li>
+<li><code>fontFamily: &#39;iconfont&#39;</code> PS: 下载的文件叫什么，<code>fontFamily</code>就是什么。</li>
+<li>因为我们的<code>iconfont</code>都是<code>&amp;#xe038;</code>这种格式的，这不是把这些传给<code>Icon</code>组件就行了吗，但是试了之后，会转义成字符串。这可不是我们想要的。</li>
+<li>那怎么办，不让他转义是一种方式：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> content=<span class="string">'&lt;strong&gt;content&lt;/strong&gt;'</span>;    </span><br><span class="line"></span><br><span class="line">React.render(</span><br><span class="line">    &lt;div dangerouslySetInnerHTML=&#123;&#123;<span class="attr">__html</span>: content&#125;&#125;&gt;&lt;/div&gt;,</span><br><span class="line">    <span class="built_in">document</span>.body</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>没生效，故弃之。</p>
+<ol>
+<li>我们用的时候只要用<code>e038</code>就行了，因为<code>e038</code>是个16进制数字，我们要先转换成10进制，再转化回去16进制就行了。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>.fromCharCode(<span class="built_in">parseInt</span>(<span class="string">'e038'</span>, <span class="number">16</span>))</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这样就会返回我们要的图标；</p>
+
+      
+    </div>
+    <footer>
+      
+          
+          <div class="clearfix"></div>
+          <nav id="pagination">
+  
+    <a href="/2017/06/22/React-Native-使用-Redux/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
+  
+  
+    <a href="/2017/06/06/vue-cli构建vue项目/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+  
+  <div class="clearfix"></div>
+</nav>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Kommentare</h1>
+
+  
+      <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-thread-key="/2017/06/19/React-Native-使用自定义字体文件/"></div>
+<!-- Duoshuo Comment END -->
+  
+</section>
+
+
+
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div>
+  
+  &copy; 2017 <a href="https://suuzee.github.io/" title="SU_ZE__" target="_blank" rel="noopener">SU_ZE__</a>
+  
+</div>
+Powered by <a href="http://zespia.tw/hexo/" title="Hexo" target="_blank" rel="noopener">Hexo</a> and <a href="http://pages.github.com/" title="GitHub Pages" target="_blank" rel="noopener">GitHub Pages</a>
+
+<div class="clearfix"></div>
+</footer>
+  
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        (function(){
+
+            $(window).scroll(function(){
+
+                var scrollTop = $(window).scrollTop();
+                if ( scrollTop >200 ){
+                    $("#main-nav").removeClass('normal_mode').addClass('top_mode');
+                } else{
+                    $("#main-nav").removeClass('top_mode').addClass('normal_mode');
+                }
+
+            });
+
+        })();
+    </script>
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox({
+      'titlePosition': 'inside'
+    });
+  })(jQuery);
+  </script>
+
+
+
+
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"suuzee"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+
+  $(function(){
+
+    $('.title').hover(
+      function() {
+        $(this).stop().animate(
+          {'marginLeft': '10px'}, 200
+        );
+      },
+      function() {
+        $(this).stop().animate({'marginLeft': '0px'}, 200);
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>

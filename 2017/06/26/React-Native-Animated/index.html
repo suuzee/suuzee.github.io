@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>React Native Animated | SU_ZE__&#39;s Blog</title>
+  <meta name="author" content="SU_ZE__">
+  
+  <meta name="description" content="React Native Animated">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="React Native Animated"/>
+  <meta property="og:site_name" content="SU_ZE__&#39;s Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="SU_ZE__&#39;s Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/css/style.css">
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-368771XX-X']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+<body>
+  <header id="header" class='normal_mode'>
+    <nav id="main-nav">
+  <ul class='container'>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+  </header>
+  <div id="content" class="container">
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+      <time datetime="2017-06-26T15:47:47.000Z"><a href="/2017/06/26/React-Native-Animated/">Mon, Jun 26 2017, 11:47:47 pm</a></time>
+
+  
+    <h1 class="title">React Native Animated</h1>
+  
+
+
+  
+  <div class="categories">
+  	<i class="fa fa-folder-open"></i>
+    <a href="/categories/React-Native/">React Native</a>
+  </div>
+
+
+  
+  <div class="tags">
+  	<i class="fa fa-tag"></i>
+    <a href="/tags/学习笔记/">学习笔记</a>, <a href="/tags/React/">React</a>, <a href="/tags/Animated/">Animated</a>
+  </div>
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <p>今天有个需求是展示内容，不完全展示，当点击下拉箭头的时候，才能展示完全内容。展示完全的时候这个下拉箭头会旋转成收回箭头，所以想着能不能用动画来实现一个旋转的过程。说干就干<a id="more"></a></p>
+<p>其实逻辑很简单，一共有3种状态：初始化页面的时候，箭头向下，不旋转；点开内容看全部的时候，箭头应该向上，旋转180deg；收回的时候，箭头向下，旋转回0deg。</p>
+<p>直接上代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; View, Text, StyleSheet, TouchableWithoutFeedback, Animated, Easing &#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="comment">// xxx</span></span><br><span class="line">    <span class="keyword">constructor</span> () &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            <span class="comment">// xxx</span></span><br><span class="line">            moreIconRotateConfig: [<span class="string">'0deg'</span>, <span class="string">'180deg'</span>],   <span class="comment">// 给outputRange一个初始值</span></span><br><span class="line">            moreIconRotateValue: <span class="keyword">new</span> Animated.Value(<span class="number">0</span>)   <span class="comment">// 给动画一个初始值</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    loadMore () &#123;</span><br><span class="line">        <span class="keyword">let</span> &#123; moreIconRotateValue, isFullTextShow &#125; = <span class="keyword">this</span>.state;</span><br><span class="line">        <span class="keyword">let</span> moreIconRotateConfig = [<span class="string">'0deg'</span>, <span class="string">'180deg'</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 保证每次执行动画都是从0开始</span></span><br><span class="line">        moreIconRotateValue.setValue(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 开始执行动画。如果要循环的话，就在start 里面写回调，执行本身开始递归。</span></span><br><span class="line">        Animated.timing(moreIconRotateValue, &#123;</span><br><span class="line">            toValue: <span class="number">1</span>,</span><br><span class="line">            duration: <span class="number">200</span>,</span><br><span class="line">            easing: Easing.linear</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 两种状态，如果没有</span></span><br><span class="line">        <span class="keyword">if</span> (isFullTextShow) &#123;</span><br><span class="line">            moreIconRotateConfig = [<span class="string">'180deg'</span>, <span class="string">'0deg'</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        isFullTextShow = !isFullTextShow;</span><br><span class="line">        <span class="keyword">this</span>.setState(<span class="function"><span class="params">()</span> =&gt;</span> (&#123; isFullTextShow, moreIconRotateConfig &#125;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidMount () &#123;</span><br><span class="line">        <span class="comment">// 当页面初始化的时候，什么也没点，箭头应该是向下的，也就是一点没旋转</span></span><br><span class="line">        <span class="keyword">this</span>.setState(<span class="function"><span class="params">()</span> =&gt;</span> (&#123; <span class="attr">moreIconRotateConfig</span>: [<span class="string">'0deg'</span>, <span class="string">'180deg'</span>]&#125;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render () &#123;</span><br><span class="line">        <span class="comment">// xxx</span></span><br><span class="line">        <span class="keyword">const</span> &#123; moreIconRotateValue, moreIconRotateConfig &#125; = <span class="keyword">this</span>.state;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// inputRange 和 outputRange 是一一对应的关系， 0 相当于 0%， 1 相当于100%，也就是说执行到0的时候是0deg，执行到100%的时候就是180deg了。</span></span><br><span class="line">        <span class="keyword">const</span> rotate = moreIconRotateValue.interpolate(&#123;</span><br><span class="line">            inputRange: [<span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">            outputRange: moreIconRotateConfig</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line">                &#123;<span class="comment">/* xxx */</span>&#125;</span><br><span class="line">                &lt;TouchableWithoutFeedback onPress=&#123;<span class="keyword">this</span>.loadMore.bind(<span class="keyword">this</span>)&#125;&gt;</span><br><span class="line">                    &#123;<span class="comment">/* 必须有个View来包裹 */</span>&#125;</span><br><span class="line">                    &lt;View&gt;</span><br><span class="line">                        &#123;<span class="comment">/* xxx */</span>&#125;</span><br><span class="line">                        &lt;View style=&#123;styles.more&#125;&gt;</span><br><span class="line">                            &lt;Animated.View</span><br><span class="line">                                &#123;<span class="comment">/* 这个style里的transform就是要旋转的对象 */</span>&#125;</span><br><span class="line">                                style=&#123;&#123;</span><br><span class="line">                                    transform: [&#123; rotate &#125;]</span><br><span class="line">                                &#125;&#125;&gt;</span><br><span class="line">                                &lt;Icon</span><br><span class="line">                                    code=<span class="string">"e049"</span></span><br><span class="line">                                    color=<span class="string">"#b49150"</span></span><br><span class="line">                                    size=&#123;<span class="number">22</span>&#125;</span><br><span class="line">                                /&gt;</span><br><span class="line">                            &lt;<span class="regexp">/Animated.View&gt;</span></span><br><span class="line"><span class="regexp">                        &lt;/</span>View&gt;</span><br><span class="line">                    &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">                &lt;/</span>TouchableWithoutFeedback&gt;</span><br><span class="line">            &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>还是读书少啊，也踩了很多坑。最开始的时候还把初始化啥的放在<code>render</code>里面写，完全傻逼的行为啊。以后碰到初始化的时候就应该放到生命周期里面写。因为每次改变<code>state</code>的时候，都会执行<code>render</code>，导致死循环了。。</p>
+<p>这次还用到了<code>ScrollView</code>，看文档挺多内容的，但是我啥都没写啊，只包了一个标签就好使了，这次先不写了，等有时间研究再写吧。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://www.jianshu.com/p/b3cfc6b0c33f" target="_blank" rel="noopener">React Native图像变换 Transforms详解</a><br><a href="http://www.lcode.org/react-native%E8%BF%9B%E9%98%B6%E4%B9%8Banimated%E5%8A%A8%E7%94%BB%E5%BA%93%E8%AF%A6%E8%A7%A3-%E5%9F%BA%E7%A1%80%E7%AF%8764/" target="_blank" rel="noopener">【React Native开发】React Native进阶之Animated动画库详解-基础篇(64)</a><br><a href="http://blog.csdn.net/hello_hwc/article/details/51775696" target="_blank" rel="noopener">React Native开发之动画(Animations)</a><br><a href="https://segmentfault.com/a/1190000007621628" target="_blank" rel="noopener">【译】详解React Native动画</a><br><a href="http://www.alloyteam.com/2016/01/reactnative-animated/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">ReactNative Animated动画详解</a></p>
+
+      
+    </div>
+    <footer>
+      
+          
+          <div class="clearfix"></div>
+          <nav id="pagination">
+  
+    <a href="/2017/06/27/我被惊艳到了/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
+  
+  
+    <a href="/2017/06/25/涵盖三大系统指型：电吉他音阶系统练习/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+  
+  <div class="clearfix"></div>
+</nav>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Kommentare</h1>
+
+  
+      <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-thread-key="/2017/06/26/React-Native-Animated/"></div>
+<!-- Duoshuo Comment END -->
+  
+</section>
+
+
+
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div>
+  
+  &copy; 2017 <a href="https://suuzee.github.io/" title="SU_ZE__" target="_blank" rel="noopener">SU_ZE__</a>
+  
+</div>
+Powered by <a href="http://zespia.tw/hexo/" title="Hexo" target="_blank" rel="noopener">Hexo</a> and <a href="http://pages.github.com/" title="GitHub Pages" target="_blank" rel="noopener">GitHub Pages</a>
+
+<div class="clearfix"></div>
+</footer>
+  
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        (function(){
+
+            $(window).scroll(function(){
+
+                var scrollTop = $(window).scrollTop();
+                if ( scrollTop >200 ){
+                    $("#main-nav").removeClass('normal_mode').addClass('top_mode');
+                } else{
+                    $("#main-nav").removeClass('top_mode').addClass('normal_mode');
+                }
+
+            });
+
+        })();
+    </script>
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox({
+      'titlePosition': 'inside'
+    });
+  })(jQuery);
+  </script>
+
+
+
+
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"suuzee"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+
+  $(function(){
+
+    $('.title').hover(
+      function() {
+        $(this).stop().animate(
+          {'marginLeft': '10px'}, 200
+        );
+      },
+      function() {
+        $(this).stop().animate({'marginLeft': '0px'}, 200);
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>

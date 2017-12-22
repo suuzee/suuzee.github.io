@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>函数式编程 | SU_ZE__&#39;s Blog</title>
+  <meta name="author" content="SU_ZE__">
+  
+  <meta name="description" content="了解函数式编程">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="函数式编程"/>
+  <meta property="og:site_name" content="SU_ZE__&#39;s Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="SU_ZE__&#39;s Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/css/style.css">
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-368771XX-X']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+<body>
+  <header id="header" class='normal_mode'>
+    <nav id="main-nav">
+  <ul class='container'>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+  </header>
+  <div id="content" class="container">
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+      <time datetime="2017-02-26T00:17:48.000Z"><a href="/2017/02/26/函数式编程/">Sun, Feb 26 2017, 8:17:48 am</a></time>
+
+  
+    <h1 class="title">函数式编程</h1>
+  
+
+
+  
+  <div class="categories">
+  	<i class="fa fa-folder-open"></i>
+    <a href="/categories/函数式编程/">函数式编程</a>
+  </div>
+
+
+  
+  <div class="tags">
+  	<i class="fa fa-tag"></i>
+    <a href="/tags/学习笔记/">学习笔记</a>, <a href="/tags/函数式编程/">函数式编程</a>
+  </div>
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <h4 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数<a id="more"></a></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大多数的纯函数都应该有至少一个参数。</p>
+<p>所有的纯函数都应该返回一些东西。</p>
+<p>纯函数对于给定的输入，总是产生相同的输出。</p>
+<p>纯函数没有函数副作用。</p>
+<p>纯函数有可缓存性。</p>
+<p>我的理解：纯函数不依赖任何出了传入参数给定的东西。比如外部变量，获取个系统时间之类的，因为输入相同，输出一定要相同。</p>
+<h4 id="不可变性"><a href="#不可变性" class="headerlink" title="不可变性"></a>不可变性</h4><p>在函数式编程中没有变量。也就是说即使传入的参数，到了执行的时候也不能被改变。里面任何时候定义的变量也都不能改，被声明时赋值了什么就是什么。</p>
+<p>函数式编程通过拷贝处理但只修改。🤔</p>
+<p>没有循环，不能用for之类的，用递归。递归不会修改旧值，但是使用了旧值的计算结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sumRange</span> (<span class="params">start, end, acc</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (start &gt; end) &#123;</span><br><span class="line">        <span class="keyword">return</span> acc;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sumRange(start + <span class="number">1</span>, end, acc + start);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(sumRange(<span class="number">1</span>, <span class="number">10</span>, <span class="number">0</span>)) <span class="comment">// 55</span></span><br></pre></td></tr></table></figure>
+<p>这里函数内部并没有改变参数的值，但是在递归调用的时候可能会对参数值进行重新赋值，这就是使用了旧值的计算结果，但是那是另一个函数了。</p>
+<p>不可变性的好处：不可变性创建了更简单安全的代码。🤔</p>
+<h4 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h4><p>定义：传递给函数一部分参数来调用它，让它返回一个函数去处理剩下的参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">y</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x + y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">add(<span class="number">1</span>)(<span class="number">2</span>); <span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> add10 = add(<span class="number">10</span>);</span><br><span class="line">add10(<span class="number">20</span>); <span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+<h4 id="函数组合"><a href="#函数组合" class="headerlink" title="函数组合"></a>函数组合</h4><p>函数组合就是传入几个参数，然后在定义函数组合的函数中执行这几个参数，或者在return的函数中执行这几个参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> compose = <span class="function">(<span class="params">f, g</span>) =&gt;</span> (<span class="function"><span class="params">x</span> =&gt;</span> f(g(x)));</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="params">x</span> =&gt;</span> x + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> bar = <span class="function"><span class="params">x</span> =&gt;</span> x * <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">compose(foo, bar)(<span class="number">2</span>); <span class="comment">// 11</span></span><br></pre></td></tr></table></figure>
+<h4 id="Point-Free"><a href="#Point-Free" class="headerlink" title="Point Free"></a>Point Free</h4><h4 id="声明式与命令式代码"><a href="#声明式与命令式代码" class="headerlink" title="声明式与命令式代码"></a>声明式与命令式代码</h4><p>命令式代码就是每一步都是指定去做。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> CEOs = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = companies.length; i &lt; len; i ++) &#123;</span><br><span class="line">    CEOs.push(companies[i].CEO);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>声明式代码是通过写表达式的方式来声明我们想干什么。声明的是做什么。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> CEOs = companies.map(<span class="function"><span class="params">c</span> =&gt;</span> c.CEO);</span><br></pre></td></tr></table></figure>
+<h4 id="容器、Functor"><a href="#容器、Functor" class="headerlink" title="容器、Functor"></a>容器、Functor</h4><p>容器就是讲给定的值包裹起来，可能还有其他的一些作用。比如说衣服将人包裹起来，还有保暖，遮体的作用，脱掉了衣服人还是人。</p>
+<p>例子能看明白怎么实现，但是不是很理解：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Container = <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.__value = x;</span><br><span class="line">&#125;</span><br><span class="line">Container.of = <span class="function"><span class="params">x</span> =&gt;</span> <span class="keyword">new</span> Container(x);</span><br><span class="line">Container.prototype.map = <span class="function"><span class="params">f</span> =&gt;</span> Container.of(f(<span class="keyword">this</span>.__value));</span><br><span class="line"></span><br><span class="line">Container.of(<span class="number">3</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x + <span class="number">1</span>) <span class="comment">// Container(4)</span></span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> <span class="string">'Result is '</span> + x); <span class="comment">// Container('Result is 4')</span></span><br></pre></td></tr></table></figure></p>
+<p>执行的时候感觉有问题，每次调用 <code>Container.of</code> 的时候，都是返回一个新的Container对象，这几个对象不是一个。也就是说上面的链式调用每个都是一个新的 <code>Container</code> ，而map中用到的 <code>this.__value</code> 就是 <code>undefined</code> 了。</p>
+
+      
+    </div>
+    <footer>
+      
+          
+          <div class="clearfix"></div>
+          <nav id="pagination">
+  
+    <a href="/2017/02/26/Redux/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
+  
+  
+    <a href="/2017/02/06/高性能JavaScript读书笔记（二）/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+  
+  <div class="clearfix"></div>
+</nav>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Kommentare</h1>
+
+  
+      <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-thread-key="/2017/02/26/函数式编程/"></div>
+<!-- Duoshuo Comment END -->
+  
+</section>
+
+
+
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div>
+  
+  &copy; 2017 <a href="https://suuzee.github.io/" title="SU_ZE__" target="_blank" rel="noopener">SU_ZE__</a>
+  
+</div>
+Powered by <a href="http://zespia.tw/hexo/" title="Hexo" target="_blank" rel="noopener">Hexo</a> and <a href="http://pages.github.com/" title="GitHub Pages" target="_blank" rel="noopener">GitHub Pages</a>
+
+<div class="clearfix"></div>
+</footer>
+  
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        (function(){
+
+            $(window).scroll(function(){
+
+                var scrollTop = $(window).scrollTop();
+                if ( scrollTop >200 ){
+                    $("#main-nav").removeClass('normal_mode').addClass('top_mode');
+                } else{
+                    $("#main-nav").removeClass('top_mode').addClass('normal_mode');
+                }
+
+            });
+
+        })();
+    </script>
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox({
+      'titlePosition': 'inside'
+    });
+  })(jQuery);
+  </script>
+
+
+
+
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"suuzee"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+
+  $(function(){
+
+    $('.title').hover(
+      function() {
+        $(this).stop().animate(
+          {'marginLeft': '10px'}, 200
+        );
+      },
+      function() {
+        $(this).stop().animate({'marginLeft': '0px'}, 200);
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>

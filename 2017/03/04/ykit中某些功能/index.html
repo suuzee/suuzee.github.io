@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ykit中某些功能 | SU_ZE__&#39;s Blog</title>
+  <meta name="author" content="SU_ZE__">
+  
+  <meta name="description" content="了解Redux">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="ykit中某些功能"/>
+  <meta property="og:site_name" content="SU_ZE__&#39;s Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="SU_ZE__&#39;s Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/css/style.css">
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-368771XX-X']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+<body>
+  <header id="header" class='normal_mode'>
+    <nav id="main-nav">
+  <ul class='container'>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+  </header>
+  <div id="content" class="container">
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+      <time datetime="2017-03-04T14:13:40.000Z"><a href="/2017/03/04/ykit中某些功能/">Sat, Mar 4 2017, 10:13:40 pm</a></time>
+
+  
+    <h1 class="title">ykit中某些功能</h1>
+  
+
+
+  
+  <div class="categories">
+  	<i class="fa fa-folder-open"></i>
+    <a href="/categories/ykit/">ykit</a>
+  </div>
+
+
+  
+  <div class="tags">
+  	<i class="fa fa-tag"></i>
+    <a href="/tags/ykit/">ykit</a>, <a href="/tags/编译工具/">编译工具</a>
+  </div>
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <p><code>ykit</code>: <a href="http://ued.qunar.com/ykit/" target="_blank" rel="noopener">http://ued.qunar.com/ykit/</a> <a id="more"></a></p>
+<h4 id="不同环境可以设置不同的url。目前不支持beta；"><a href="#不同环境可以设置不同的url。目前不支持beta；" class="headerlink" title="不同环境可以设置不同的url。目前不支持beta；"></a>不同环境可以设置不同的url。目前不支持beta；</h4><p>配置：<code>ykit.config.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> envUrls = <span class="built_in">require</span>(<span class="string">'./config/url'</span>);</span><br><span class="line"><span class="keyword">switch</span> (<span class="keyword">this</span>.env) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'local'</span>:</span><br><span class="line">        baseConfig.plugins.unshift(<span class="keyword">new</span> <span class="keyword">this</span>.webpack.DefinePlugin(envUrls.local));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'dev'</span>:</span><br><span class="line">        baseConfig.plugins.unshift(<span class="keyword">new</span> <span class="keyword">this</span>.webpack.DefinePlugin(envUrls.dev));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'prd'</span>:</span><br><span class="line">        baseConfig.plugins.unshift(<span class="keyword">new</span> <span class="keyword">this</span>.webpack.DefinePlugin(envUrls.prd));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>urls: <code>./config/url.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> urls = &#123;</span><br><span class="line">    card: <span class="string">'/fp/card.jsp'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 环境url</span></span><br><span class="line"><span class="keyword">let</span> envUrls = &#123;</span><br><span class="line">    local: &#123;</span><br><span class="line">        card: &#123;</span><br><span class="line">            ajaxCardDeleteCardUrl: urls.card + <span class="string">'?mockAction=deleteCard'</span>,</span><br><span class="line">            ajaxCardBindCardViewUrl: urls.card + <span class="string">'?mockAction=bindCardView'</span>,</span><br><span class="line">            ajaxCardBindCardUrl: urls.card + <span class="string">'?mockAction=bindCard'</span>,</span><br><span class="line">            ajaxCardGetCardUrl: urls.card</span><br><span class="line">        &#125;,</span><br><span class="line">        index: &#123;</span><br><span class="line">            ajaxIndexPaySyncUrl: <span class="string">'/wappay/cardinfoinput?mockAction=local'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    dev: &#123;</span><br><span class="line">        card: &#123;</span><br><span class="line">            ajaxCardDeleteCardUrl: urls.card,</span><br><span class="line">            ajaxCardBindCardViewUrl: urls.card,</span><br><span class="line">            ajaxCardBindCardUrl: urls.card,</span><br><span class="line">            ajaxCardGetCardUrl: urls.card</span><br><span class="line">        &#125;,</span><br><span class="line">        index: &#123;</span><br><span class="line">            ajaxIndexPaySyncUrl: <span class="string">'/wappay/cardinfoinput'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    prd: &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> local = mergeObject(envUrls.local);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dev = mergeObject(envUrls.dev);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正常情况是 let prd = mergeObject(envUrls.prd);</span></span><br><span class="line"><span class="keyword">let</span> prd = dev;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * [mergeObject 将对象中的属性合并]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeObject</span> (<span class="params">obj = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> temp = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">in</span> obj) &#123;</span><br><span class="line">        <span class="built_in">Object</span>.assign(temp, obj[p]);</span><br><span class="line">    &#125;</span><br><span class="line">    temp = stringProperty(temp);</span><br><span class="line">    <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * [stringProperty 将对象属性包裹JSON.stringify，如果不包裹可能会认为属性是一个正则表达式]</span></span><br><span class="line"><span class="comment"> * @param  &#123;Object&#125; obj [description]</span></span><br><span class="line"><span class="comment"> * @return &#123;[type]&#125;     [description]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringProperty</span> (<span class="params">obj = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">in</span> obj) &#123;</span><br><span class="line">        obj[p] = <span class="built_in">JSON</span>.stringify(obj[p]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;local, dev, prd&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>PS：由于有些url带 <code>/</code> ，所以可能会被解析成一个正则表达式，所以要给url包一层 <code>JSON.stringify</code> .</p>
+<h4 id="通过-jerry-实现mock"><a href="#通过-jerry-实现mock" class="headerlink" title="通过 jerry 实现mock"></a>通过 <code>jerry</code> 实现mock</h4><p><code>jerry</code>: <a href="https://github.com/Ellery0924/Jerry" target="_blank" rel="noopener">https://github.com/Ellery0924/Jerry</a></p>
+<p>可以通过 <code>jerry</code> 实现mock，并且可以通过一个url，传入不同的参数实现返回不同的 <code>json</code>.在项目根目录创建 <code>mock.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        pattern: <span class="regexp">/\/xxx\/yyy/</span>,</span><br><span class="line">        responder: <span class="built_in">require</span>(<span class="string">'./mock/yyy.js'</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        pattern: <span class="regexp">/\/xxx\/zzz/</span>,</span><br><span class="line">        responder: <span class="built_in">require</span>(<span class="string">'./mock/zzz.json'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>responder</code> 支持返回一个方法，支持直接返回一个 <code>json</code> 对象等。</p>
+<p><code>responder</code> 返回的方法有两个参数：第一个参数是请求的 <code>url</code> 的解析之后的对象，这个对象就像是 <code>window.location</code> 这个对象。第二个参数是 <code>body</code>，即 <code>response.body</code>，是一个字符串，格式类似于 <code>window.location.search</code>，没有前面的 <code>?</code> .</p>
+<p><code>./mock/yyy.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">parserUrl, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> action = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> json = &#123;&#125;;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        action = getAction(parserUrl, data);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (action) &#123;</span><br><span class="line">        <span class="keyword">if</span> (action === <span class="string">'a'</span>) &#123;</span><br><span class="line">            json = aJson;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (action === <span class="string">'b'</span>)&#123;</span><br><span class="line">            json =  bJson;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            json = defaultJson;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        json =  defaultJson;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> json;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAction</span> (<span class="params">urlObj, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> action = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> actionGet = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> actionPost = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!!urlObj.search) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            actionGet = queryToJson(urlObj.search).action;</span><br><span class="line">            <span class="keyword">if</span> (!!actionGet) &#123;</span><br><span class="line">                action = actionGet;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            actionPost = queryToJson(data).action;</span><br><span class="line">            <span class="keyword">if</span> (actionPost) &#123;</span><br><span class="line">                action = actionPost;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> action;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">queryToJson</span> (<span class="params">searchString</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> params = searchString.replace(<span class="regexp">/\?/</span>, <span class="string">''</span>).split(<span class="string">'&amp;'</span>) || [];</span><br><span class="line">    <span class="keyword">var</span> paramObj = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = params.length; i &lt; len; i ++) &#123;</span><br><span class="line">        <span class="keyword">var</span> param = params[i].split(<span class="string">'='</span>);</span><br><span class="line">        paramObj[param[<span class="number">0</span>]] = param[<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> paramObj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> defaultJson = &#123;</span><br><span class="line">    data: <span class="string">'defaultjson'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> aJson = &#123;</span><br><span class="line">    data: <span class="string">'ajson'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bJson = &#123;</span><br><span class="line">    data: <span class="string">'bjson'</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这种是针对一种场景：请求同一个url，但是请求的参数不同，返回的json也就不同。上述是请求 <code>/xxx/yyy</code>，如果参数中 <code>action</code> 为 <code>a</code>，则返回 <code>aJson</code>，如果参数中 <code>action</code> 为 <code>b</code>，则返回 <code>bJson</code>。</p>
+
+      
+    </div>
+    <footer>
+      
+          
+          <div class="clearfix"></div>
+          <nav id="pagination">
+  
+    <a href="/2017/03/07/node-Stream/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
+  
+  
+    <a href="/2017/02/27/问题总结/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+  
+  <div class="clearfix"></div>
+</nav>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Kommentare</h1>
+
+  
+      <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-thread-key="/2017/03/04/ykit中某些功能/"></div>
+<!-- Duoshuo Comment END -->
+  
+</section>
+
+
+
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div>
+  
+  &copy; 2017 <a href="https://suuzee.github.io/" title="SU_ZE__" target="_blank" rel="noopener">SU_ZE__</a>
+  
+</div>
+Powered by <a href="http://zespia.tw/hexo/" title="Hexo" target="_blank" rel="noopener">Hexo</a> and <a href="http://pages.github.com/" title="GitHub Pages" target="_blank" rel="noopener">GitHub Pages</a>
+
+<div class="clearfix"></div>
+</footer>
+  
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        (function(){
+
+            $(window).scroll(function(){
+
+                var scrollTop = $(window).scrollTop();
+                if ( scrollTop >200 ){
+                    $("#main-nav").removeClass('normal_mode').addClass('top_mode');
+                } else{
+                    $("#main-nav").removeClass('top_mode').addClass('normal_mode');
+                }
+
+            });
+
+        })();
+    </script>
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox({
+      'titlePosition': 'inside'
+    });
+  })(jQuery);
+  </script>
+
+
+
+
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"suuzee"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+
+  $(function(){
+
+    $('.title').hover(
+      function() {
+        $(this).stop().animate(
+          {'marginLeft': '10px'}, 200
+        );
+      },
+      function() {
+        $(this).stop().animate({'marginLeft': '0px'}, 200);
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>
