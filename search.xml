@@ -177,16 +177,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[🙃]]></title>
-      <url>https://suuzee.github.io/2017/07/03/%F0%9F%99%83/</url>
-      <content type="html"><![CDATA[<p>谁画出这天地<br>又画出我和你</p>
-<p>可是你在哪里<br>可是明天醒来的第一脸阳光<br>能否<br>像昨天一样明亮</p>
-]]></content>
-      
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[取个或都是false]]></title>
       <url>https://suuzee.github.io/2017/06/29/%E5%8F%96%E4%B8%AA%E6%88%96%E9%83%BD%E6%98%AFfalse/</url>
       <content type="html"><![CDATA[<p>取个或都是false</p>
@@ -293,9 +283,7 @@
     <entry>
       <title><![CDATA[这个夏天]]></title>
       <url>https://suuzee.github.io/2017/06/25/%E8%BF%99%E4%B8%AA%E5%A4%8F%E5%A4%A9/</url>
-      <content type="html"><![CDATA[<blockquote>
-<p>I/O版本的《山阴路的夏天》尾奏简直牛逼，小提琴也牛逼。<br><a id="more"></a></p>
-</blockquote>
+      <content type="html"><![CDATA[<p>I/O版本的《山阴路的夏天》尾奏简直牛逼，小提琴也牛逼。<br><a id="more"></a></p>
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=30967317&auto=1&height=66"></iframe>
 
 <p>其实这个夏天也没有那么糟，换了一份工作，还是很感谢Q的人，因为确实学到了很多实实在在的东西；<br>从当初刚来实习的时候的懵懵懂懂，到现在了解到比较前沿的东西，虽然我说不出来，但是还是在心里感受到了；<br>在Q遇到了很好的小伙伴，什么事都可以说，什么事都可以一起探讨，在这个如此艰难的社会，还是感觉挺温暖；<br>在Q也遇到了好的同事们，被灌输了很多工作之外的知识，比如金福的买房理念，哈哈哈。<br>愿你们一切都好，加油；💪</p>
@@ -409,7 +397,7 @@
 </li>
 </ol>
 <p>没生效，故弃之。</p>
-<ol>
+<ol start="7">
 <li>我们用的时候只要用<code>e038</code>就行了，因为<code>e038</code>是个16进制数字，我们要先转换成10进制，再转化回去16进制就行了。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>.fromCharCode(<span class="built_in">parseInt</span>(<span class="string">'e038'</span>, <span class="number">16</span>))</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
@@ -569,7 +557,7 @@
 </li>
 </ol>
 <p><a href="https://github.com/jshint/jshint/issues/2922#ref-issue-154888828" target="_blank" rel="noopener">https://github.com/jshint/jshint/issues/2922#ref-issue-154888828</a></p>
-<ol>
+<ol start="2">
 <li>运行 <code>imagemin</code> 出现 <code>Warning: Imagemin.pngquant is not a function Use --force to continue.</code>：<br>解决办法：<br>运行 <code>npm install grunt-contrib-imagemin@1.0.1 --save-dev</code>。</li>
 </ol>
 ]]></content>
