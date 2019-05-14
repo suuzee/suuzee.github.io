@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 7 部署 Sentry | SU_ZE__&#39;s Blog</title>
+  <meta name="author" content="SU_ZE__">
+  
+  <meta name="description" content="在CentOS 7部署 Sentry，并且配置LDAP">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="CentOS 7 部署 Sentry"/>
+  <meta property="og:site_name" content="SU_ZE__&#39;s Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="SU_ZE__&#39;s Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/css/style.css">
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-368771XX-X']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+<body>
+  <header id="header" class='normal_mode'>
+    <nav id="main-nav">
+  <ul class='container'>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+  </header>
+  <div id="content" class="container">
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+      <time datetime="2019-05-14T06:31:28.000Z"><a href="/2019/05/14/CentOS-7-部署-Sentry/">Tue, May 14 2019, 2:31:28 pm</a></time>
+
+  
+    <h1 class="title">CentOS 7 部署 Sentry</h1>
+  
+
+
+  
+  <div class="categories">
+  	<i class="fa fa-folder-open"></i>
+    <a href="/categories/Sentry/">Sentry</a>
+  </div>
+
+
+  
+  <div class="tags">
+  	<i class="fa fa-tag"></i>
+    <a href="/tags/CentOS/">CentOS</a>, <a href="/tags/Docker/">Docker</a>, <a href="/tags/Sentry/">Sentry</a>, <a href="/tags/LDAP/">LDAP</a>
+  </div>
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <p>由于工作需要，需要部署一套<code>Sentry</code>环境用来统计前端的报错，遇到了很多坑，将部署的正确姿势记录下来，留作备份。<a id="more"></a></p>
+<h2 id="更新yum源"><a href="#更新yum源" class="headerlink" title="更新yum源"></a>更新yum源</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 备份</span></span><br><span class="line">mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</span><br><span class="line"><span class="comment"># 2. 添加</span></span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"><span class="comment"># 3.生成缓存</span></span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+<h2 id="Docker相关"><a href="#Docker相关" class="headerlink" title="Docker相关"></a>Docker相关</h2><h3 id="docker-ce"><a href="#docker-ce" class="headerlink" title="docker-ce"></a>docker-ce</h3><h4 id="卸载旧版Docker"><a href="#卸载旧版Docker" class="headerlink" title="卸载旧版Docker"></a>卸载旧版Docker</h4><p>因为我装了一个比较低版本的docker，所以要先卸载<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ yum list installed | grep docker </span><br><span class="line"></span><br><span class="line"><span class="comment">## remove掉列出来的docker相关</span></span><br><span class="line">$ yum remove [docker]</span><br></pre></td></tr></table></figure></p>
+<h4 id="安装最新版Docker"><a href="#安装最新版Docker" class="headerlink" title="安装最新版Docker"></a>安装最新版Docker</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ curl -fsSL https://get.docker.com/ | sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># centos 7</span></span><br><span class="line">$ systemctl restart docker <span class="comment"># 启动服务</span></span><br><span class="line">$ systemctl <span class="built_in">enable</span> docker <span class="comment"># 开机启动</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># centos 6</span></span><br><span class="line">$ service docker restart <span class="comment"># 启动服务</span></span><br><span class="line">$ chkconfig docker on <span class="comment"># 开机启动</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看安Docker版本</span></span><br><span class="line">$ docker version <span class="comment"># docker -v</span></span><br></pre></td></tr></table></figure>
+<h4 id="安装Docker-compose"><a href="#安装Docker-compose" class="headerlink" title="安装Docker-compose"></a>安装Docker-compose</h4><blockquote>
+<p><a href="https://github.com/docker/compose/releases" target="_blank" rel="noopener">https://github.com/docker/compose/releases</a></p>
+</blockquote>
+<p>去这个链接找到最新的安装脚本，比如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-`uname -s`-`uname -m` -o /usr/<span class="built_in">local</span>/bin/docker-compose</span><br><span class="line">chmod +x /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<h2 id="Sentry-相关"><a href="#Sentry-相关" class="headerlink" title="Sentry 相关"></a>Sentry 相关</h2><h3 id="clone代码"><a href="#clone代码" class="headerlink" title="clone代码"></a><code>clone</code>代码</h3><blockquote>
+<p><a href="https://github.com/getsentry/onpremise" target="_blank" rel="noopener">https://github.com/getsentry/onpremise</a></p>
+</blockquote>
+<h3 id="部署Sentry"><a href="#部署Sentry" class="headerlink" title="部署Sentry"></a>部署<code>Sentry</code></h3><p>按照<code>Up and Running</code>步骤来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 创建数据卷</span></span><br><span class="line">docker volume create --name=sentry-data &amp;&amp; docker volume create --name=sentry-postgres</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 生成.env</span></span><br><span class="line">cp -n .env.example .env</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 构建</span></span><br><span class="line">docker-compose build</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 生成secret-key 并且将生成的key加入到.env文件</span></span><br><span class="line">docker-compose run --rm web config generate-secret-key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 运行，这最后可以创建一个超级管理员用户</span></span><br><span class="line">docker-compose run --rm web upgrade</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 启动</span></span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 访问</span></span><br><span class="line">localhost:9000</span><br></pre></td></tr></table></figure>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><p>创建用户<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose run --rm web createuser</span><br></pre></td></tr></table></figure></p>
+<p>查看日志<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker-compose logs web</span><br><span class="line"></span><br><span class="line"><span class="comment">## 实时日志</span></span><br><span class="line">docker-compose logs --tail=<span class="string">"1000"</span> -f web</span><br></pre></td></tr></table></figure></p>
+<p>进入容器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose <span class="built_in">exec</span> web bash</span><br></pre></td></tr></table></figure></p>
+<h2 id="LDAP-相关"><a href="#LDAP-相关" class="headerlink" title="LDAP 相关"></a><code>LDAP</code> 相关</h2><blockquote>
+<p><a href="https://github.com/Banno/getsentry-ldap-auth" target="_blank" rel="noopener">https://github.com/Banno/getsentry-ldap-auth</a></p>
+</blockquote>
+<h3 id="增加LDAP配置"><a href="#增加LDAP配置" class="headerlink" title="增加LDAP配置"></a>增加<code>LDAP</code>配置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###########</span></span><br><span class="line"><span class="comment"># LDAP/AD #</span></span><br><span class="line"><span class="comment">###########</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> ldap</span><br><span class="line"><span class="keyword">from</span> django_auth_ldap.config <span class="keyword">import</span> LDAPSearch, GroupOfUniqueNamesType</span><br><span class="line"></span><br><span class="line">AUTH_LDAP_SERVER_URI = <span class="string">'ldap://example'</span></span><br><span class="line">AUTH_LDAP_BIND_DN = <span class="string">'cn=readuser,ou=ex,dc=example,dc=com'</span></span><br><span class="line">AUTH_LDAP_BIND_PASSWORD = <span class="string">'example'</span></span><br><span class="line">OU=unicode(<span class="string">'dc=example,dc=com'</span>, <span class="string">'utf8'</span>)</span><br><span class="line">AUTH_LDAP_USER_SEARCH = LDAPSearch(</span><br><span class="line">    OU,</span><br><span class="line">    ldap.SCOPE_SUBTREE,</span><br><span class="line">    <span class="string">'(cn=%(user)s)'</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">AUTH_LDAP_GROUP_SEARCH = LDAPSearch(</span><br><span class="line">    <span class="string">''</span>,</span><br><span class="line">    ldap.SCOPE_SUBTREE,</span><br><span class="line">    <span class="string">'(objectClass=groupOfUniqueNames)'</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">AUTH_LDAP_GROUP_TYPE = GroupOfUniqueNamesType()</span><br><span class="line">AUTH_LDAP_REQUIRE_GROUP = <span class="keyword">None</span></span><br><span class="line">AUTH_LDAP_DENY_GROUP = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">AUTH_LDAP_USER_ATTR_MAP = &#123;</span><br><span class="line">    <span class="string">'name'</span>: <span class="string">'cn'</span>,</span><br><span class="line">    <span class="string">'email'</span>: <span class="string">'email'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">AUTH_LDAP_FIND_GROUP_PERMS = <span class="keyword">False</span></span><br><span class="line">AUTH_LDAP_CACHE_GROUPS = <span class="keyword">True</span></span><br><span class="line">AUTH_LDAP_GROUP_CACHE_TIMEOUT = <span class="number">3600</span></span><br><span class="line"></span><br><span class="line">AUTH_LDAP_DEFAULT_SENTRY_ORGANIZATION = <span class="string">u'sentry'</span></span><br><span class="line">AUTH_LDAP_SENTRY_ORGANIZATION_ROLE_TYPE = <span class="string">'member'</span></span><br><span class="line">AUTH_LDAP_SENTRY_ORGANIZATION_GLOBAL_ACCESS = <span class="keyword">True</span></span><br><span class="line">AUTH_LDAP_SENTRY_USERNAME_FIELD = <span class="string">'uid'</span></span><br><span class="line"></span><br><span class="line">AUTHENTICATION_BACKENDS = AUTHENTICATION_BACKENDS + (</span><br><span class="line">    <span class="string">'sentry_ldap_auth.backend.SentryLdapBackend'</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><h4 id="更新容器apt源"><a href="#更新容器apt源" class="headerlink" title="更新容器apt源"></a>更新容器<code>apt</code>源</h4><p>进入容器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose <span class="built_in">exec</span> web bash</span><br></pre></td></tr></table></figure></p>
+<p>因为容器内很干净，所以安装<code>vim</code>来编辑<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install vim</span><br></pre></td></tr></table></figure></p>
+<p>查看<code>Linux</code>版本，可以看出是 <code>Debian 9</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/issue</span><br><span class="line"></span><br><span class="line">Debian GNU/Linux 9 \n \l</span><br></pre></td></tr></table></figure></p>
+<p>更新<code>apt</code>源，在<code>/etc/apt/sources.list</code>新增<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/debian stretch main contrib non-free</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian stretch main contrib non-free</span><br><span class="line">deb http://mirrors.aliyun.com/debian stretch-updates main contrib non-free</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian stretch-updates main contrib non-free</span><br><span class="line">deb http://mirrors.aliyun.com/debian-security stretch/updates main contrib non-free</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian-security stretch/updates main contrib non-free</span><br></pre></td></tr></table></figure></p>
+<p>update<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br></pre></td></tr></table></figure></p>
+<h4 id="修改Dockerfile"><a href="#修改Dockerfile" class="headerlink" title="修改Dockerfile"></a>修改<code>Dockerfile</code></h4><p>修改<code>Dockerfile</code>文件，在下面加入<br><figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev</span></span><br><span class="line"><span class="bash">RUN pip install sentry-ldap-auth</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h4><p><code>sentry-ldap-auth</code>作者推荐将插件加入到<code>requirements.txt</code>里面，但是这样会有问题，不要尝试</p>
+<h3 id="重启Sentry服务"><a href="#重启Sentry服务" class="headerlink" title="重启Sentry服务"></a>重启<code>Sentry</code>服务</h3><p>分别执行上面<code>3</code>、<code>5</code>、<code>6</code>、<code>7</code>步骤登录的时候就可以用<code>ldap</code>账户登录了，但是登陆进去没有组织</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://www.zengjianfeng.com/2018/07/321.html" target="_blank" rel="noopener">Centos安装最新版Docker CE、Docker-Compose</a></li>
+<li><a href="https://www.cnblogs.com/dayfly5/p/10275353.html" target="_blank" rel="noopener">Debian9换源(阿里源)（Linux子系统）</a></li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+          
+          <div class="clearfix"></div>
+          <nav id="pagination">
+  
+  
+    <a href="/2018/08/31/如何通过Axios实现一个http请求库（译）/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+  
+  <div class="clearfix"></div>
+</nav>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comentarios</h1>
+
+  
+      <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-thread-key="/2019/05/14/CentOS-7-部署-Sentry/"></div>
+<!-- Duoshuo Comment END -->
+  
+</section>
+
+
+
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div>
+  
+  &copy; 2019 <a href="https://suuzee.github.io/" title="SU_ZE__" target="_blank" rel="noopener">SU_ZE__</a>
+  
+</div>
+Powered by <a href="http://zespia.tw/hexo/" title="Hexo" target="_blank" rel="noopener">Hexo</a> and <a href="http://pages.github.com/" title="GitHub Pages" target="_blank" rel="noopener">GitHub Pages</a>
+
+<div class="clearfix"></div>
+</footer>
+  
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        (function(){
+
+            $(window).scroll(function(){
+
+                var scrollTop = $(window).scrollTop();
+                if ( scrollTop >200 ){
+                    $("#main-nav").removeClass('normal_mode').addClass('top_mode');
+                } else{
+                    $("#main-nav").removeClass('top_mode').addClass('normal_mode');
+                }
+
+            });
+
+        })();
+    </script>
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox({
+      'titlePosition': 'inside'
+    });
+  })(jQuery);
+  </script>
+
+
+
+
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"suuzee"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+
+  $(function(){
+
+    $('.title').hover(
+      function() {
+        $(this).stop().animate(
+          {'marginLeft': '10px'}, 200
+        );
+      },
+      function() {
+        $(this).stop().animate({'marginLeft': '0px'}, 200);
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>
